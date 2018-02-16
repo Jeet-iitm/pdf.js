@@ -36,6 +36,11 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
     pdfjsDisplayAPI.setPDFNetworkStreamFactory((params) => {
       return new PDFNodeStream(params);
     });
+  } else if(window["fileAccess"]) {
+    let PDFNetworkStream = require('./display/network.js').PDFNetworkStream;
+    pdfjsDisplayAPI.setPDFNetworkStreamFactory((params) => {
+      return new PDFNetworkStream(params);
+    });
   } else if (typeof Response !== 'undefined' && 'body' in Response.prototype &&
              typeof ReadableStream !== 'undefined') {
     let PDFFetchStream = require('./display/fetch_stream.js').PDFFetchStream;
